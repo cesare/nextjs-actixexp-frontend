@@ -3,13 +3,17 @@ import { InferGetStaticPropsType } from 'next'
 
 type Servant = {
   name: String,
+  class_name: String,
 }
 
 export default function Servants({ servants }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <div>
       {servants.map((servant: Servant) => (
-        <div>{servant.name}</div>
+        <div>
+          <div>{servant.name}</div>
+          <div>[{servant.class_name}]</div>
+        </div>
       ))}
     </div>
   )
