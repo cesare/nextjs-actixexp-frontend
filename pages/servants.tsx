@@ -1,6 +1,10 @@
 import { GetStaticProps, GetStaticPropsContext } from 'next'
 import { InferGetStaticPropsType } from 'next'
 
+type ListServantsResponse = {
+  servants: Servant[],
+}
+
 type Servant = {
   name: String,
   class_name: String,
@@ -23,7 +27,8 @@ export const getStaticProps: GetStaticProps = async (
   context: GetStaticPropsContext
 ) => {
   const response = await fetch('http://localhost:8080/servants')
-  const servants: Servant[] = await response.json()
+  const json: ListServantsResponse = await response.json()
+  const servants: Servant[] = json.servants
 
   return {
     props: {
