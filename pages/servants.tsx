@@ -6,6 +6,7 @@ type ListServantsResponse = {
 }
 
 type Servant = {
+  id: number,
   name: String,
   class_name: String,
 }
@@ -14,7 +15,7 @@ export default function Servants({ servants }: InferGetStaticPropsType<typeof ge
   return (
     <div>
       {servants.map((servant: Servant) => (
-        <div>
+        <div key={servant.id}>
           <div>{servant.name}</div>
           <div>[{servant.class_name}]</div>
         </div>
