@@ -1,0 +1,61 @@
+import Router from 'next/router'
+import { useState } from 'react'
+
+interface ServantRegistrationParameters {
+  name: String,
+  className: String,
+}
+
+export default function NewServantForm() {
+  const initialServant: ServantRegistrationParameters = {
+    name: '',
+    className: '',
+  }
+  const [servant, setServant] = useState(initialServant)
+  const handleChange = (target: HTMLInputElement) => {
+    setServant({...servant, [target.name]: target.value})
+  }
+
+  const register: React.FormEventHandler<HTMLFormElement> = async (event) => {
+    event.preventDefault()
+
+    const response = await fetch(
+      "http://localhost:8080/servants", {
+        body: JSON.stringify({
+          name: servant.name,
+          class_name: servant.className,
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        mode: "cors",
+        cache: "no-cache",
+        credentials: 'include',
+        method: "POST",
+      }
+    )
+    if (response.ok) {
+      const result = await response.json()
+      Router.push("/servants")
+    }
+    else {
+      console.log(response.body)
+    }
+  }
+
+  return (
+    <form onSubmit={register}>
+      <div>
+        <label htmlFor="name">name</label>
+        <input id="name" name="name" type="text" onChange={e => handleChange(e.target)} />
+      </div>
+      <div>
+        <label htmlFor="className">class</label>
+        <input id="className" name="className" type="text" onChange={e => handleChange(e.target)} />
+      </div>
+      <div>
+        <button type="submit">Register</button>
+      </div>
+    </form>
+  )
+}
