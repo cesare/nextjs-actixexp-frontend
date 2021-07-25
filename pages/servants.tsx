@@ -27,7 +27,8 @@ export default function Servants({ servants }: InferGetStaticPropsType<typeof ge
 export const getStaticProps: GetStaticProps = async (
   context: GetStaticPropsContext
 ) => {
-  const response = await fetch('http://localhost:8080/servants')
+  const uri = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URI}/servants`
+  const response = await fetch(uri)
   const json: ListServantsResponse = await response.json()
   const servants: Servant[] = json.servants
 

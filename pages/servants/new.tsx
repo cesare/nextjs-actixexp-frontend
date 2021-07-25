@@ -19,8 +19,10 @@ export default function NewServantForm() {
   const register: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault()
 
+    const uri = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URI}/servants`
+    console.log(uri)
     const response = await fetch(
-      "http://localhost:8080/servants", {
+      uri, {
         body: JSON.stringify({
           name: servant.name,
           class_name: servant.className,
