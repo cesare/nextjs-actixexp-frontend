@@ -1,5 +1,6 @@
 import Router from 'next/router'
 import { useState } from 'react'
+import ServantClassSelector from '../../src/components/ServantClassSelector'
 
 interface ServantRegistrationParameters {
   name: String,
@@ -53,7 +54,7 @@ export default function NewServantForm() {
       </div>
       <div>
         <label htmlFor="className">class</label>
-        <input id="className" name="className" type="text" onChange={e => handleChange(e.target)} />
+        <ServantClassSelector onClassnameChange={value => setServant({...servant, ["className"]: value})}/>
       </div>
       <div>
         <button type="submit">Register</button>
