@@ -2,6 +2,11 @@ import React from 'react'
 
 interface Props {
   onClassnameChange: (value: string) => void,
+  value?: string,
+}
+
+interface ServantSelection {
+  name: string,
 }
 
 class ServantClassSelector extends React.Component<Props> {
@@ -15,7 +20,18 @@ class ServantClassSelector extends React.Component<Props> {
   }
 
   render() {
-    const selections = [
+    const selections = this.servantSelections()
+
+    return (
+      <select value={this.props.value} onChange={this.handleChange}>
+        <option value="" />
+        {selections.map(s => <option value={s.name} key={s.name}>{s.name}</option>)}
+      </select>
+    )
+  }
+
+  private servantSelections(): ServantSelection[] {
+    return [
       {name: "saber"},
       {name: "archer"},
       {name: "lancer"},
@@ -29,11 +45,6 @@ class ServantClassSelector extends React.Component<Props> {
       {name: "alterego"},
       {name: "foreigner"},
     ]
-    return (
-      <select onChange={this.handleChange}>
-        {selections.map(s => <option value={s.name} key={s.name}>{s.name}</option>)}
-      </select>
-    )
   }
 }
 
