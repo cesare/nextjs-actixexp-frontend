@@ -1,11 +1,7 @@
 import Router from 'next/router'
 import { useState } from 'react'
+import ServantNameInput from '../../src/components/ServantNameInput'
 import ServantClassSelector from '../../src/components/ServantClassSelector'
-
-interface ServantRegistrationParameters {
-  name: String,
-  className: String,
-}
 
 export default function NewServantForm() {
   const [servantName, setServantName] = useState('')
@@ -43,7 +39,7 @@ export default function NewServantForm() {
     <form onSubmit={register}>
       <div>
         <label htmlFor="name">name</label>
-        <input id="name" name="name" type="text" onChange={e => setServantName(e.target.value)} />
+        <ServantNameInput onNameChange={setServantName} />
       </div>
       <div>
         <label htmlFor="className">class</label>
