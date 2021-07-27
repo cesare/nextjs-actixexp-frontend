@@ -2,6 +2,7 @@ import Router from 'next/router'
 import { useState } from 'react'
 import ServantNameInput from '../../src/components/ServantNameInput'
 import ServantClassSelector from '../../src/components/ServantClassSelector'
+import ServantRegistration from '../../src/backend/ServantRegistration'
 
 export default function NewServantForm() {
   const [servantName, setServantName] = useState('')
@@ -10,22 +11,11 @@ export default function NewServantForm() {
   const register: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault()
 
-    const uri = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URI}/servants`
-    const response = await fetch(
-      uri, {
-        body: JSON.stringify({
-          name: servantName,
-          class_name: servantClass,
-        }),
-        headers: {
-          "Content-Type": "application/json"
-        },
-        mode: "cors",
-        cache: "no-cache",
-        credentials: 'include',
-        method: "POST",
-      }
-    )
+    const params = {
+      name: servantName,
+      className: servantClass,
+    }
+    const response = await new ServantRegistration(params).execute()
     if (response.ok) {
       const result = await response.json()
       Router.push("/servants")
