@@ -8,14 +8,8 @@ interface ServantRegistrationParameters {
 }
 
 export default function NewServantForm() {
-  const initialServant: ServantRegistrationParameters = {
-    name: '',
-    className: '',
-  }
-  const [servant, setServant] = useState(initialServant)
-  const handleChange = (target: HTMLInputElement) => {
-    setServant({...servant, [target.name]: target.value})
-  }
+  const [servantName, setServantName] = useState('')
+  const [servantClass, setServantClass] = useState('')
 
   const register: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault()
@@ -24,8 +18,8 @@ export default function NewServantForm() {
     const response = await fetch(
       uri, {
         body: JSON.stringify({
-          name: servant.name,
-          class_name: servant.className,
+          name: servantName,
+          class_name: servantClass,
         }),
         headers: {
           "Content-Type": "application/json"
@@ -49,11 +43,11 @@ export default function NewServantForm() {
     <form onSubmit={register}>
       <div>
         <label htmlFor="name">name</label>
-        <input id="name" name="name" type="text" onChange={e => handleChange(e.target)} />
+        <input id="name" name="name" type="text" onChange={e => setServantName(e.target.value)} />
       </div>
       <div>
         <label htmlFor="className">class</label>
-        <ServantClassSelector onClassnameChange={value => setServant({...servant, ["className"]: value})}/>
+        <ServantClassSelector onClassnameChange={value => setServantClass(value)} />
       </div>
       <div>
         <button type="submit">Register</button>
