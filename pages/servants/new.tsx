@@ -21,7 +21,6 @@ export default function NewServantForm() {
     event.preventDefault()
 
     const uri = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URI}/servants`
-    console.log(uri)
     const response = await fetch(
       uri, {
         body: JSON.stringify({
