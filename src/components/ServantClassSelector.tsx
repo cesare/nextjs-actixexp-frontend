@@ -1,14 +1,19 @@
 import React from 'react'
 
-class ServantClassSelector extends React.Component {
-  constructor(props: object) {
+interface Props {
+  onClassnameChange: (value: string) => void,
+}
+
+class ServantClassSelector extends React.Component<Props> {
+  constructor(props: Props) {
     super(props)
     this.handleChange = this.handleChange.bind(this)
   }
 
-  handleChange(event) {
+  handleChange(event: React.ChangeEvent<HTMLSelectElement>) {
     this.props.onClassnameChange(event.target.value)
   }
+
   render() {
     const selections = [
       {name: "saber"},
