@@ -33,7 +33,7 @@ export default function NewServantForm() {
       </div>
       <div>
         <label htmlFor="className">class</label>
-        <ServantClassSelector onClassnameChange={value => setServantClass(value)} />
+        <ServantClassSelector onClassnameChange={setServantClass} />
       </div>
       <div>
         <button type="submit">Register</button>
