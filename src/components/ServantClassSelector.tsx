@@ -23,6 +23,11 @@ class ServantClassSelector extends React.Component<Props> {
       {name: "caster"},
       {name: "assasin"},
       {name: "berserker"},
+      {name: "ruler"},
+      {name: "avenger"},
+      {name: "mooncancer"},
+      {name: "alterego"},
+      {name: "foreigner"},
     ]
     return (
       <select onChange={this.handleChange}>
