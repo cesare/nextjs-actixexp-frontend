@@ -11,6 +11,10 @@ class ServantRegistration {
   }
 
   public execute(): Promise<Response> {
+    return this.request()
+  }
+
+  private request(): Promise<Response> {
     const body = this.requestJson()
     return fetch(
       this.endpointUri(), {
