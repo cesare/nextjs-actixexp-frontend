@@ -1,5 +1,6 @@
 import { GetStaticProps, GetStaticPropsContext } from 'next'
 import { InferGetStaticPropsType } from 'next'
+import Link from 'next/link'
 
 type ListServantsResponse = {
   servants: Servant[],
@@ -16,8 +17,12 @@ export default function Servants({ servants }: InferGetStaticPropsType<typeof ge
     <div>
       {servants.map((servant: Servant) => (
         <div key={servant.id}>
-          <div>{servant.name}</div>
-          <div>[{servant.class_name}]</div>
+          <div>
+            <Link href={{pathname: "/servants/[id]", query: { id: servant.id }}}>
+              {servant.name}
+            </Link>
+            <span>[{servant.class_name}]</span>
+          </div>
         </div>
       ))}
     </div>
