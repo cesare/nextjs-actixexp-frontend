@@ -1,12 +1,6 @@
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
 import SingleServant from '../../src/backend/SingleServant'
 
-interface Servant {
-  id: string,
-  name: string,
-  className: string,
-}
-
 export default function ShowServant({ servant }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div key={servant.id}>
