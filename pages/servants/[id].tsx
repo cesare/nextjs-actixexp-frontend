@@ -1,4 +1,5 @@
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
+import SingleServant from '../../src/backend/SingleServant'
 
 interface Servant {
   id: string,
@@ -21,8 +22,7 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
     return { notFound: true }
   }
 
-  const uri = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URI}/servants/${id}`
-  const response = await fetch(uri)
+  const response = await new SingleServant({ id: id }).execute()
   if (!response.ok) {
     return { notFound: true }
   }
