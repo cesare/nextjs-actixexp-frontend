@@ -1,5 +1,5 @@
 interface Parameters {
-  id: string | string[],
+  id: string,
 }
 
 class SingleServant {

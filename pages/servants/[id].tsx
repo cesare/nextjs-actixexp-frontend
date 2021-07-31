@@ -12,7 +12,7 @@ export default function ShowServant({ servant }: InferGetServerSidePropsType<typ
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
   const id = context.params?.id
-  if (!id) {
+  if (typeof id != "string") {
     return { notFound: true }
   }
 
