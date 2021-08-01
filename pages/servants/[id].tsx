@@ -1,5 +1,6 @@
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
 import SingleServant from '../../src/backend/SingleServant'
+import { NotFound } from '../../src/backend/errors'
 
 export default function ShowServant({ servant }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
@@ -16,21 +17,18 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
     return { notFound: true }
   }
 
-  const response = await new SingleServant({ id: id }).execute()
-  if (!response.ok) {
-    return { notFound: true }
+  try {
+    const servant = await new SingleServant({ id: id }).execute()
+    return {
+      props: {
+        servant
+      },
+    }
   }
-
-  const json = await response.json()
-  const servant = {
-    id: json.id,
-    name: json.name,
-    className: json.class_name,
-  }
-
-  return {
-    props: {
-      servant
-    },
+  catch (e) {
+    if (e instanceof NotFound) {
+      return { notFound: true }
+    }
+    throw e
   }
 }
