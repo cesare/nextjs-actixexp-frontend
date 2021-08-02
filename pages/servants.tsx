@@ -2,15 +2,8 @@ import { GetStaticProps, GetStaticPropsContext } from 'next'
 import { InferGetStaticPropsType } from 'next'
 import Link from 'next/link'
 
-type ListServantsResponse = {
-  servants: Servant[],
-}
-
-type Servant = {
-  id: number,
-  name: String,
-  class_name: String,
-}
+import Servant from '../src/entities/Servant'
+import ServantListing from '../src/backend/ServantListing'
 
 export default function Servants({ servants }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
@@ -21,7 +14,7 @@ export default function Servants({ servants }: InferGetStaticPropsType<typeof ge
             <Link href={{pathname: "/servants/[id]", query: { id: servant.id }}}>
               {servant.name}
             </Link>
-            <span>[{servant.class_name}]</span>
+            <span>[{servant.className}]</span>
           </div>
         </div>
       ))}
@@ -32,11 +25,7 @@ export default function Servants({ servants }: InferGetStaticPropsType<typeof ge
 export const getStaticProps: GetStaticProps = async (
   context: GetStaticPropsContext
 ) => {
-  const uri = `${process.env.NEXT_PUBLIC_BACKEND_BASE_URI}/servants`
-  const response = await fetch(uri)
-  const json: ListServantsResponse = await response.json()
-  const servants: Servant[] = json.servants
-
+  const servants = await new ServantListing().execute()
   return {
     props: {
       servants,
