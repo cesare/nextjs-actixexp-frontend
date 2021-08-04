@@ -37,7 +37,7 @@ class ServantClassSelector extends React.Component<Props> {
       {name: "lancer"},
       {name: "rider"},
       {name: "caster"},
-      {name: "assasin"},
+      {name: "assassin"},
       {name: "berserker"},
       {name: "ruler"},
       {name: "avenger"},
