@@ -1,21 +1,51 @@
+import queryString from "query-string"
+
 interface ResponseJson {
   client_id: string,
   scope: string,
   state: string,
 }
 
-interface AuthParams {
-  clientId: string,
-  scope: string,
-  state: string,
+interface AuthRequest {
+  requestUri: string,
+}
+
+class AuthParams {
+  private clientId: string
+  private scope: string
+  private state: string
+
+  constructor(responseJson: ResponseJson) {
+    this.clientId = responseJson.client_id
+    this.scope = responseJson.scope
+    this.state = responseJson.state
+  }
+
+  public createUri(): string {
+    const params = {
+      client_id: this.clientId,
+      scope: this.scope,
+      state: this.state,
+      redirect_uri: this.redirectUri(),
+    }
+    const query = queryString.stringify(params)
+    return `https://github.com/login/oauth/authorize?${query}`
+  }
+
+  private redirectUri(): string {
+    return "http://localhost:3000/auth/callback" // FIXME
+  }
 }
 
 class AuthInitiation {
-  public async execute(): Promise<AuthParams> {
+  public async execute(): Promise<AuthRequest> {
     const uri = this.endpointUri()
     const response = await fetch(uri)
     const responseJson = await response.json()
-    return this.createParams(responseJson)
+    const params = this.createParams(responseJson)
+    return {
+      requestUri: params.createUri()
+    }
   }
 
   private endpointUri(): string {
@@ -23,11 +53,7 @@ class AuthInitiation {
   }
 
   private createParams(jsonObject: ResponseJson): AuthParams {
-    return {
-      clientId: jsonObject.client_id,
-      scope: jsonObject.scope,
-      state: jsonObject.state,
-    }
+    return new AuthParams(jsonObject)
   }
 }
 
