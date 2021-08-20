@@ -40,7 +40,10 @@ class AuthParams {
 class AuthInitiation {
   public async execute(): Promise<AuthRequest> {
     const uri = this.endpointUri()
-    const response = await fetch(uri)
+    const response = await fetch(uri, {
+      method: "GET",
+      credentials: "include",
+    })
     const responseJson = await response.json()
     const params = this.createParams(responseJson)
     return {
