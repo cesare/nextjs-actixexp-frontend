@@ -41,7 +41,7 @@ class AuthInitiation {
   public async execute(): Promise<AuthRequest> {
     const uri = this.endpointUri()
     const response = await fetch(uri, {
-      method: "GET",
+      method: "POST",
       credentials: "include",
     })
     const responseJson = await response.json()

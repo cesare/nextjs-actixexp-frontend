@@ -17,8 +17,19 @@ class AuthCallback {
 
   public async execute(): Promise<CallbackResponse> {
     const uri = this.requestUri()
+    const params = {
+      code: this.code,
+      state: this.state,
+    }
+    const body = queryString.stringify(params)
+
     const response = await fetch(uri, {
-      method: "GET",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: body,
+      mode: "cors",
       credentials: "include",
     })
     const responseJson = await response.json()
@@ -30,12 +41,7 @@ class AuthCallback {
   }
 
   private requestUri(): string {
-    const params = {
-      code: this.code,
-      state: this.state,
-    }
-    const query = queryString.stringify(params)
-    return `${process.env.NEXT_PUBLIC_BACKEND_BASE_URI}/auth/callback?${query}`
+    return `${process.env.NEXT_PUBLIC_BACKEND_BASE_URI}/auth/callback`
   }
 }
 
