@@ -1,11 +1,13 @@
+import Router from 'next/router'
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
 import AuthCallback from '../../src/backend/AuthCallback'
 
-export default function Callback({ result }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Callback(result: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  if (result.ok) {
+    Router.push("/")
+  }
   return(
     <div>
-      <p>{result.identifier}</p>
-      <p>{result.username}</p>
     </div>
   )
 }
@@ -19,9 +21,15 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
     }
   }
 
-  const result = await new AuthCallback(code, state).execute()
+  try {
+    const auth = await new AuthCallback(code, state).execute()
 
-  return {
-    props: { result }
+    return {
+      props: { ok: true, auth }
+    }
+  } catch(error) {
+    return {
+      props: { ok: false, error }
+    }
   }
 }

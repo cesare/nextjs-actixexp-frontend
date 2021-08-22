@@ -32,11 +32,16 @@ class AuthCallback {
       mode: "cors",
       credentials: "include",
     })
-    const responseJson = await response.json()
-    return {
-      identifier: responseJson.identifier,
-      username: responseJson.username,
-      name: responseJson.name,
+    if (response.ok) {
+      const responseJson = await response.json()
+      return {
+        identifier: responseJson.identifier,
+        username: responseJson.username,
+        name: responseJson.name,
+      }
+    } else {
+      const errorJson = await response.json()
+      throw errorJson
     }
   }
 
