@@ -1,14 +1,17 @@
-import { GetStaticProps, GetStaticPropsContext } from 'next'
-import { InferGetStaticPropsType } from 'next'
+import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import Link from 'next/link'
 
 import Servant from '../src/entities/Servant'
 import ServantListing from '../src/backend/ServantListing'
 
-export default function Servants({ servants }: InferGetStaticPropsType<typeof getStaticProps>) {
+type Result = {
+  servants: Servant[]
+}
+
+export default function ListServants(result: Result) {
   return (
     <div>
-      {servants.map((servant: Servant) => (
+      {result.servants.map(servant => (
         <div key={servant.id}>
           <div>
             <Link href={{pathname: "/servants/[id]", query: { id: servant.id }}}>
@@ -22,13 +25,13 @@ export default function Servants({ servants }: InferGetStaticPropsType<typeof ge
   )
 }
 
-export const getStaticProps: GetStaticProps = async (
-  context: GetStaticPropsContext
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
 ) => {
   const servants = await new ServantListing().execute()
   return {
     props: {
-      servants,
+      servants
     },
   }
 }
