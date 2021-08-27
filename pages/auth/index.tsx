@@ -1,16 +1,12 @@
-import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
+import { useEffect } from 'react';
 import AuthInitiation from '../../src/backend/AuthInitiation'
 
-export default function AuthIndex({ authRequest }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function AuthIndex() {
+  useEffect(() => {
+    const authRequest = new AuthInitiation().execute()
+    authRequest.then(auth => {
+      window.location.assign(auth.requestUri)
+    })
+  })
   return(<div>dummy</div>)
-}
-
-export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-  const authRequest = await new AuthInitiation().execute()
-  return {
-    redirect: {
-      statusCode: 302,
-      destination: authRequest.requestUri,
-    }
-  }
 }

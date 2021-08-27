@@ -1,35 +1,24 @@
-import Router from 'next/router'
-import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
+import { useEffect } from 'react';
+import { useRouter } from 'next/router'
 import AuthCallback from '../../src/backend/AuthCallback'
 
-export default function Callback(result: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  if (result.ok) {
-    Router.push("/")
-  }
+export default function Callback() {
+  const router = useRouter()
+  const state = router.query.state
+  const code = router.query.code
+
+  useEffect(() => {
+    if (typeof state == "string" && typeof code == "string") {
+      const auth = new AuthCallback(code, state).execute()
+      auth.then(result => {
+        window.location.assign("/")
+      })
+    }
+  })
+
   return(
     <div>
+      <p>dummy</p>
     </div>
   )
-}
-
-export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-  const state = context.query.state
-  const code = context.query.code
-  if (typeof state != "string" || typeof code != "string") {
-    return {
-      notFound: true
-    }
-  }
-
-  try {
-    const auth = await new AuthCallback(code, state).execute()
-
-    return {
-      props: { ok: true, auth }
-    }
-  } catch(error) {
-    return {
-      props: { ok: false, error }
-    }
-  }
 }
