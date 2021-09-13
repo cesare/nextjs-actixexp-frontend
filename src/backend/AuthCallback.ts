@@ -4,6 +4,7 @@ interface CallbackResponse {
   identifier: string,
   username: string,
   name: string,
+  token: string,
 }
 
 class AuthCallback {
@@ -38,6 +39,7 @@ class AuthCallback {
         identifier: responseJson.identifier,
         username: responseJson.username,
         name: responseJson.name,
+        token: responseJson.token,
       }
     } else {
       const errorJson = await response.json()
