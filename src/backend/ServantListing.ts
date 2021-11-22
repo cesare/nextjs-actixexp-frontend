@@ -9,7 +9,11 @@ interface ResponseServant {
 class ServantListing {
   public async execute(): Promise<Servant[]> {
     const uri = this.endpointUri()
-    const response = await fetch(uri)
+    const response = await fetch(uri, {
+      method: "GET",
+      mode: "cors",
+      credentials: "include",
+    })
     const responseJson = await response.json()
     return responseJson.servants.map(this.createServant)
   }

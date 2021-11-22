@@ -1,17 +1,24 @@
-import { GetServerSideProps, GetServerSidePropsContext } from 'next'
+import { useEffect, useState } from 'react';
 import Link from 'next/link'
 
 import Servant from '../src/entities/Servant'
 import ServantListing from '../src/backend/ServantListing'
 
-type Result = {
-  servants: Servant[]
-}
+export default function ListServants() {
+  const initialValue: Servant[] = []
+  const [servants, setServants] = useState(initialValue)
 
-export default function ListServants(result: Result) {
+  useEffect(() => {
+    async function loadServants() {
+      const servants = await new ServantListing().execute()
+      setServants(servants)
+    }
+    loadServants()
+  }, [])
+
   return (
     <div>
-      {result.servants.map(servant => (
+      {servants.map(servant => (
         <div key={servant.id}>
           <div>
             <Link href={{pathname: "/servants/[id]", query: { id: servant.id }}}>
@@ -23,15 +30,4 @@ export default function ListServants(result: Result) {
       ))}
     </div>
   )
-}
-
-export const getServerSideProps: GetServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
-  const servants = await new ServantListing().execute()
-  return {
-    props: {
-      servants
-    },
-  }
 }
