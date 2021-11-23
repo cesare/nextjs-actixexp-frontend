@@ -1,34 +1,34 @@
-import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+
+import Servant from '../../src/entities/Servant'
 import SingleServant from '../../src/backend/SingleServant'
 import { NotFound } from '../../src/backend/errors'
 
-export default function ShowServant({ servant }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  return (
-    <div key={servant.id}>
-      <div>{servant.name}</div>
-      <div>[{servant.className}]</div>
-    </div>
-  )
-}
-
-export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-  const id = context.params?.id
-  if (typeof id != "string") {
-    return { notFound: true }
-  }
-
-  try {
-    const servant = await new SingleServant({ id: id }).execute()
-    return {
-      props: {
-        servant
-      },
+export default function ShowServant() {
+  const router = useRouter()
+  const [servant, setServant] = useState<Servant>()
+  const fetchServant = async () => {
+    if (router.isReady) {
+      const id = router.query.id as string
+      const value = await new SingleServant({ id: id }).execute()
+      setServant(value)
     }
   }
-  catch (e) {
-    if (e instanceof NotFound) {
-      return { notFound: true }
-    }
-    throw e
+
+  useEffect(() => {
+    fetchServant()
+  }, [router.query])
+
+  if (servant) {
+    return (
+      <div key={servant.id}>
+        <div>{servant.name}</div>
+        <div>[{servant.className}]</div>
+      </div>
+    )
+  }
+  else {
+    return <div />
   }
 }

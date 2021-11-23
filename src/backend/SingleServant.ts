@@ -14,7 +14,11 @@ class SingleServant {
 
   public async execute(): Promise<Servant> {
     const uri = this.endpointUri()
-    const response = await fetch(uri)
+    const response = await fetch(uri, {
+      method: "GET",
+      mode: "cors",
+      credentials: "include",
+    })
     if (!response.ok) {
       throw new NotFound()
     }
