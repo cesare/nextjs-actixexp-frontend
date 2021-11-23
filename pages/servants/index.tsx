@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link'
 
-import Servant from '../src/entities/Servant'
-import ServantListing from '../src/backend/ServantListing'
+import Servant from '../../src/entities/Servant'
+import ServantListing from '../../src/backend/ServantListing'
 
 export default function ListServants() {
   const initialValue: Servant[] = []
