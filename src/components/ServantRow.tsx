@@ -25,15 +25,7 @@ class ServantRow extends React.Component<Props> {
             {this.props.servant.className}
           </div>
         </td>
-        <td
-          className="
-            px-6
-            py-4
-            whitespace-nowrap
-            text-right text-sm
-            font-medium
-          "
-        >
+        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
           <Link href={{pathname: "/servants/[id]", query: { id: this.props.servant.id }}}>
             Details
           </Link>
