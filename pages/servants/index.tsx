@@ -5,14 +5,13 @@ import ServantListing from '../../src/backend/ServantListing'
 import ServantList from '../../src/components/ServantList'
 
 export default function ListServants() {
-  const initialValue: Servant[] = []
-  const [servants, setServants] = useState(initialValue)
+  const [servants, setServants] = useState<Servant[]>([])
+  const loadServants = async () => {
+    const servants = await new ServantListing().execute()
+    setServants(servants)
+  }
 
   useEffect(() => {
-    async function loadServants() {
-      const servants = await new ServantListing().execute()
-      setServants(servants)
-    }
     loadServants()
   }, [])
 
