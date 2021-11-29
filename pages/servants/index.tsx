@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import Servant from '../../src/entities/Servant'
 import ServantListing from '../../src/backend/ServantListing'
 import ServantList from '../../src/components/ServantList'
+import { Layout } from '../../src/components/Layout'
+
 
 export default function ListServants() {
   const [servants, setServants] = useState<Servant[]>([])
@@ -15,5 +17,9 @@ export default function ListServants() {
     loadServants()
   }, [])
 
-  return <ServantList servants={servants} />
+  return <>
+    <Layout>
+      <ServantList servants={servants} />
+    </Layout>
+  </>
 }
