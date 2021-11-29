@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { useEffect, useState } from 'react';
 
 import Servant from '../../src/entities/Servant'
@@ -19,6 +20,9 @@ export default function ListServants() {
 
   return <>
     <Layout>
+      <Head>
+        <title>Servants</title>
+      </Head>
       <ServantList servants={servants} />
     </Layout>
   </>
