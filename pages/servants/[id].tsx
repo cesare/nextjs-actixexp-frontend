@@ -11,11 +11,10 @@ export default function ShowServant() {
     const id = router.query.id as string
     return new SingleServant({ id: id }).execute()
   }
-  const { data, error } = useSWR(router.pathname, fetcher)
+  const fetchKey = () => router.isReady ? router.pathname : null
+  const { data: servant, error } = useSWR(fetchKey, fetcher)
   if (error) return <div>failed to load</div>
-  if (!data) return <div>loading...</div>
-
-  const servant = data
+  if (!servant) return <div>loading...</div>
 
   return (
     <div key={servant.id}>
