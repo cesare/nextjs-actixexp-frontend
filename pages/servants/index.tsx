@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useEffect, useState } from 'react';
+import useSWR from 'swr'
 
 import Servant from '../../src/entities/Servant'
 import ServantListing from '../../src/backend/ServantListing'
@@ -8,15 +8,16 @@ import { Layout } from '../../src/components/Layout'
 
 
 export default function ListServants() {
-  const [servants, setServants] = useState<Servant[]>([])
-  const loadServants = async () => {
-    const servants = await new ServantListing().execute()
-    setServants(servants)
+  const fetcher = (path: string): Promise<Servant[]> => {
+    return new ServantListing().execute()
   }
 
-  useEffect(() => {
-    loadServants()
-  }, [])
+  const { data, error } = useSWR("/servants", fetcher)
+
+  if (error) return <div>failed to load</div>
+  if (!data) return <div>loading...</div>
+
+  const servants = data
 
   return <>
     <Layout>
