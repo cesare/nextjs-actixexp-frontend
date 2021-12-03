@@ -31,7 +31,7 @@ class ServantList extends React.Component<Props> {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                 {this.props.servants.map(servant => (
-                  <ServantRow servant={servant} />
+                  <ServantRow key={servant.id} servant={servant} />
                 ))}
                 </tbody>
               </table>
