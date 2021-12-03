@@ -17,12 +17,10 @@ export default function ListServants() {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
   }
-  const { data, error } = useSWR("/servants", fetcher, swrOptions)
+  const { data: servants, error } = useSWR("/servants", fetcher, swrOptions)
 
   if (error) return <div>failed to load</div>
-  if (!data) return <div>loading...</div>
-
-  const servants = data
+  if (!servants) return <div>loading...</div>
 
   return <>
     <Layout>
