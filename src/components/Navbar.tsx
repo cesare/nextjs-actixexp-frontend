@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import Signout from '../backend/Signout'
 
 interface Props {
 }
@@ -15,12 +16,20 @@ class Navbar extends React.Component<Props> {
           <div className="flex items-stretch">
             <a href="/" className="btn btn-ghost btn-sm rounded-btn">Home</a>
             <a href="/servants" className="btn btn-ghost btn-sm rounded-btn">Servants</a>
-            <a href="/signout" className="btn btn-ghost btn-sm rounded-btn">Logout</a>
+            <a href="/signout" onClick={handleSignout} className="btn btn-ghost btn-sm rounded-btn">Logout</a>
           </div>
         </div>
       </nav>
     </>
   }
+}
+
+const handleSignout = function(event: React.MouseEvent<HTMLElement, MouseEvent>) {
+  event.preventDefault()
+
+  new Signout().execute().then(() => {
+    globalThis.location.assign("/")
+  })
 }
 
 export default Navbar
