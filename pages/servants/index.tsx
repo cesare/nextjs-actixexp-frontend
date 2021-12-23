@@ -28,7 +28,6 @@ export default function ListServants() {
       <Head>
         <title>Servants</title>
       </Head>
-      <Navbar />
       <ServantList servants={servants} />
     </Layout>
   </>

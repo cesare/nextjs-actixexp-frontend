@@ -1,5 +1,6 @@
 import Router from 'next/router'
 import { useState } from 'react'
+import { Layout } from '../../src/components/Layout'
 import ServantNameInput from '../../src/components/ServantNameInput'
 import ServantClassSelector from '../../src/components/ServantClassSelector'
 import ServantRegistration from '../../src/backend/ServantRegistration'
@@ -25,19 +26,21 @@ export default function NewServantForm() {
     }
   }
 
-  return (
-    <form onSubmit={register}>
-      <div>
-        <label htmlFor="name">name</label>
-        <ServantNameInput onNameChange={setServantName} />
-      </div>
-      <div>
-        <label htmlFor="className">class</label>
-        <ServantClassSelector onClassnameChange={setServantClass} />
-      </div>
-      <div>
-        <button type="submit">Register</button>
-      </div>
-    </form>
-  )
+  return <>
+    <Layout>
+      <form onSubmit={register}>
+        <div>
+          <label htmlFor="name">name</label>
+          <ServantNameInput onNameChange={setServantName} />
+        </div>
+        <div>
+          <label htmlFor="className">class</label>
+          <ServantClassSelector onClassnameChange={setServantClass} />
+        </div>
+        <div>
+          <button type="submit">Register</button>
+        </div>
+      </form>
+    </Layout>
+  </>
 }

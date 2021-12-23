@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
 
+import { Layout } from '../../src/components/Layout'
 import Servant from '../../src/entities/Servant'
 import SingleServant from '../../src/backend/SingleServant'
 
@@ -30,10 +31,12 @@ export default function ShowServant() {
   if (error) return <div>failed to load</div>
   if (!servant) return <div>loading...</div>
 
-  return (
-    <div key={servant.id}>
-      <div>{servant.name}</div>
-      <div>[{servant.className}]</div>
-    </div>
-  )
+  return <>
+    <Layout>
+      <div key={servant.id}>
+        <div>{servant.name}</div>
+        <div>[{servant.className}]</div>
+      </div>
+    </Layout>
+  </>
 }
