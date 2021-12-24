@@ -14,6 +14,12 @@ class ServantListing {
       mode: "cors",
       credentials: "include",
     })
+    if (!response.ok) {
+      return Promise.reject({
+        status: response.status
+      })
+    }
+
     const responseJson = await response.json()
     return responseJson.servants.map(this.createServant)
   }

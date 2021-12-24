@@ -20,6 +20,9 @@ export default function ListServants() {
   }
   const { data: servants, error } = useSWR("/servants", fetcher, swrOptions)
 
+  if (error?.status == 401) {
+    globalThis.location.assign("/")
+  }
   if (error) return <div>failed to load</div>
   if (!servants) return <div>loading...</div>
 
