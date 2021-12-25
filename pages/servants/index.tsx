@@ -5,7 +5,6 @@ import Servant from '../../src/entities/Servant'
 import ServantListing from '../../src/backend/ServantListing'
 import ServantList from '../../src/components/ServantList'
 import { Layout } from '../../src/components/Layout'
-import Navbar from '../../src/components/Navbar'
 
 
 export default function ListServants() {
